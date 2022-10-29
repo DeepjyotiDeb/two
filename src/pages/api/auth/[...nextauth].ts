@@ -7,6 +7,7 @@ import { prisma } from "../../../server/db/client";
 import { env } from "../../../env/server.mjs";
 import CredentialsProvider from "next-auth/providers/credentials"
 import { loginSchema } from '../../../server/common/authSchema';
+import * as bcrypt from 'bcrypt'
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
@@ -28,34 +29,44 @@ export const authOptions: NextAuthOptions = {
         email: { label: "email", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        const { email, password } = await loginSchema.parseAsync(credentials)
-        const result = await prisma.user.findFirst({
-          where: { email }
-        })
-        if (!result) return null;
-        return result
+      async authorize(credentials) {
+        try {
+          const { email, password } = await loginSchema.parseAsync(credentials)
+          const result = await prisma.user.findFirst({
+            where: { email },
+          })
+          if (!result) return null
+          const isValidPassword = result.password !== null && bcrypt.compare(password, result.password)
+          if (!isValidPassword) return null
+          // console.log('result', result)
+          return {
+            id: result.id, email, name: result.name, userType: result.userType
+          }
+          // return result
+        } catch (error) {
+          return null
+        }
       }
     })
   ],
   callbacks: {
-    session({ session, token }) {
-      console.log({ session, token })
-      if (session.user) {
-        session.user.name = token.name;
-      }
-      return session;
-    },
     async jwt({ token, user }) {
-      console.log('token jwt from user', { token, user })
       if (user) {
         token.name = user.name;
-        // token = user;
-        token.user = user
+        token.sub = user.id
       }
+      // console.log('token', token, user)
       return Promise.resolve(token);
     },
-
+    async session({ session, token }) {
+      if (session?.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.id = token.sub as string
+      }
+      // console.log('session details', { session: session })
+      return session;
+    },
   },
   session: {
     strategy: "jwt",
@@ -63,7 +74,7 @@ export const authOptions: NextAuthOptions = {
   jwt: {
     maxAge: 15 * 24 * 30 * 60, // 15 days
   },
-
+  secret: env.NEXTAUTH_SECRET,
   theme: {
     colorScheme: 'light'
   }

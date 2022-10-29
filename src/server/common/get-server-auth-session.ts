@@ -9,5 +9,18 @@ export const getServerAuthSession = async (ctx: {
   req: GetServerSidePropsContext["req"];
   res: GetServerSidePropsContext["res"];
 }) => {
+  const session = await unstable_getServerSession(
+    ctx.req,
+    ctx.res,
+    nextAuthOptions
+  );
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/", // login path
+        permanent: false,
+      },
+    };
+  }
   return await unstable_getServerSession(ctx.req, ctx.res, nextAuthOptions);
 };

@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TRPCError } from '@trpc/server';
 import { ObjectID } from 'bson';
 import { randomUUID } from 'crypto';
-import { guidGenerator } from '../../../utils/customUuid';
 import { signJwt } from '../../../utils/jwt';
 import { signUpSchema } from '../../common/authSchema';
 import { publicProcedure, router } from '../trpc';
+import * as bcrypt from 'bcrypt'
 
 // const t = initTRPC.context().create()
 export const registerUserRouter = router({
@@ -21,12 +22,20 @@ export const registerUserRouter = router({
             })
         }
         const randomId = new ObjectID().toString();
+        const id_session_token = signJwt({ email, name: username, randomId })
+
+        const saltRounds = 10;
+        const newPass = await bcrypt.hash(password, saltRounds)
+
         const result = await prisma?.user.create({
             data: {
-                email, password, name: username, id: randomId
+                id: randomId,
+                email,
+                name: username,
+                password: newPass,
+                userType: "LOCAL"
             }
         })
-        const id_session_token = signJwt({ email, name: username })
         await prisma?.account.create({
             data: {
                 provider: "credentials", type: "local",
@@ -35,7 +44,7 @@ export const registerUserRouter = router({
                 id_token: id_session_token
             }
         })
-        console.log('ctx', ctx)
+        // console.log('ctx', ctx)
         return {
             status: 201,
             message: `Account for ${result?.email} created successfully`

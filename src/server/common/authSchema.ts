@@ -8,6 +8,10 @@ export const loginSchema = z.object({
 export const signUpSchema = loginSchema.extend({
     username: z.string(),
 })
+export const forgotPasswordSchema = z.object({
+    email: z.string()
+})
 
 export type ILogin = z.infer<typeof loginSchema>;
 export type ISignUp = z.infer<typeof signUpSchema>
+export type IForgot = z.infer<typeof forgotPasswordSchema>;

@@ -55,6 +55,7 @@ model User {
   image         String?
   userType      UserType  @default(OTHER)
   password      String?
+  salt          String?
   accounts      Account[]
   sessions      Session[]
 }

@@ -20,6 +20,8 @@ export const serverSchema = z.object({
   DISCORD_CLIENT_SECRET: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  REFRESH_TOKEN: z.string(),
+  REDIRECT_URI: z.string(),
 });
 
 /**
