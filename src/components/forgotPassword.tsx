@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { trpc } from "../utils/trpc";
 
 const ForgotPassword: React.FC = () => {
-  const { mutateAsync } = trpc.forgotpassword.forgotpassword.useMutation();
-
   const [field, setField] = useState("");
+  const [messageSent, setMessageSent] = useState(false);
+  const { mutateAsync } = trpc.forgotpassword.forgotpassword.useMutation({
+    onSuccess: (success) => {
+      setMessageSent(true);
+      console.log("success", success);
+    },
+  });
+
   const handleChange = (e: {
     target: { value: React.SetStateAction<string> };
   }) => {
@@ -22,10 +27,13 @@ const ForgotPassword: React.FC = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" onChange={handleChange} />
-      <button type="submit">send mail</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input type="text" onChange={handleChange} />
+        <button type="submit">send mail</button>
+      </form>
+      {messageSent && <p>message was sent</p>}
+    </div>
   );
 };
 

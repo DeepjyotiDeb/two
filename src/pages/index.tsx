@@ -32,7 +32,10 @@ const Home: NextPage = () => {
 export default Home;
 
 const AuthShowcase: React.FC = () => {
-  const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery();
+  const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
+    undefined,
+    { retry: false }
+  );
 
   const { data: sessionData } = useSession();
 
@@ -54,6 +57,7 @@ const AuthShowcase: React.FC = () => {
       )}
       <Link href="/protect">protected page</Link>
       <Link href="/register">Register page</Link>
+      <Link href="/forgotpassword">forgot page</Link>
       <button
         className="rounded-md border border-black bg-violet-50 px-4 py-2 text-xl shadow-lg hover:bg-violet-100"
         onClick={sessionData ? () => signOut() : () => signIn()}

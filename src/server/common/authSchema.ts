@@ -11,6 +11,12 @@ export const signUpSchema = loginSchema.extend({
 export const forgotPasswordSchema = z.object({
     email: z.string()
 })
+export const tokenSchema = z.object({
+    token: z.string()
+})
+export const resetPassword = tokenSchema.extend({
+    newpass: z.string(),
+})
 
 export type ILogin = z.infer<typeof loginSchema>;
 export type ISignUp = z.infer<typeof signUpSchema>
