@@ -10,6 +10,7 @@ const ResetPassword = () => {
     { token: token as string },
     {
       retry: false,
+      enabled: router.isReady,
       onSuccess: async (success) => {
         console.log("success", data, success);
       },
@@ -30,8 +31,12 @@ const ResetPassword = () => {
         token: token as string,
       });
       console.log("res", res);
+      if (res.status === 201) {
+        router.replace("/");
+      }
     } catch (error) {
       console.log(error);
+      router.replace("/");
     }
   };
 

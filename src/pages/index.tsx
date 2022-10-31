@@ -34,7 +34,7 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
     undefined,
-    { retry: false }
+    { retry: false, refetchOnWindowFocus: false }
   );
 
   const { data: sessionData } = useSession();
