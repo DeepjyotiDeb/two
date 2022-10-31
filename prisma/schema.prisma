@@ -48,16 +48,19 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String?         @unique
   emailVerified DateTime?
   image         String?
-  userType      UserType  @default(OTHER)
+  userType      UserType        @default(OTHER)
   password      String?
   salt          String?
   accounts      Account[]
   sessions      Session[]
+  posts         Post[]
+  comments      Comment[]
+  commentThread CommentThread[]
 }
 
 model VerificationToken {
@@ -67,6 +70,59 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Post {
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  body          String
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  userId        String
+  user          User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  comments      Comment[]
+  categories    CategoryOnPost[]
+  commentThread CommentThread[]
+}
+
+model Category {
+  id    String           @id @default(auto()) @map("_id") @db.ObjectId
+  name  String           @unique
+  posts CategoryOnPost[]
+}
+
+model CategoryOnPost {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  postId       String
+  post         Post?     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryName String
+  category     Category? @relation(fields: [categoryName], references: [name], onDelete: Cascade, onUpdate: Cascade)
+}
+
+//cascade delete - deleting parent-[] deletes object(relation)
+//when user is deleted, do not delete the user's post?
+//when post is deleted, remove its comments as well
+model Comment {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime        @default(now())
+  body          String
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: SetNull) //if user is deleted, dont delete comment?
+  postId        String
+  post          Post?           @relation(fields: [postId], references: [id], onDelete: SetNull)
+  commentThread CommentThread[]
+}
+
+model CommentThread {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  body            String
+  userId          String
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  parentCommentId String
+  comment         Comment? @relation(fields: [parentCommentId], references: [id], onDelete: SetNull)
+  postId          String
+  post            Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
 }
 
 enum UserType {

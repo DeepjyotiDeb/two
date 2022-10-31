@@ -71,7 +71,7 @@ export default function Navbar() {
           <div className="relative flex w-full justify-between lg:static lg:block lg:w-auto lg:justify-start">
             <a
               className="mr-4 flex items-center whitespace-nowrap py-2 font-bold leading-relaxed text-white"
-              href="#pablo"
+              href={`/posts`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -101,8 +101,8 @@ export default function Navbar() {
                 className="h-6 w-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
@@ -110,7 +110,7 @@ export default function Navbar() {
           </div>
           <div
             className={
-              "flex-grow items-center lg:flex" +
+              "flex-grow items-center duration-300 ease-in lg:flex" +
               (navbarOpen ? " flex" : " hidden")
             }
             id="example-navbar-danger"
