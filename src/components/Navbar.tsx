@@ -1,10 +1,13 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useState } from "react";
+import Sidebar from "./Sidebar";
 // import Link from "next/link";
 // import React from "react";
 
 const Navbar: React.FC = () => {
   const { data: sessionData } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
   //   return (
   //     <header className="body-font  fixed top-0 z-50 w-full bg-gray-900 text-gray-400">
   //       <div className="container absolute mx-auto flex h-20  flex-col flex-wrap p-5 md:static md:flex-row">
@@ -64,11 +67,12 @@ const Navbar: React.FC = () => {
 
   // export default function Navbar() {
   // const [navbarOpen, setNavbarOpen] = React.useState(false);
+
   return (
     <div className="navbar fixed top-0 z-50 bg-gray-900">
       <div className="navbar-start">
         <div className="dropdown">
-          <label tabIndex={0} className="btn-ghost btn lg:hidden">
+          {/* <label tabIndex={0} className="btn-ghost btn lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -82,6 +86,33 @@ const Navbar: React.FC = () => {
                 strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
               />
+            </svg>
+          </label> */}
+          <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+          <label className="swap-rotate swap btn-md btn-circle btn mr-2 bg-inherit text-white hover:bg-gray-600 lg:hidden">
+            <input
+              type="checkbox"
+              className="hidden"
+              onClick={() => setIsOpen(!isOpen)}
+              checked={isOpen}
+            />
+            <svg
+              className="swap-off fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 512 512"
+            >
+              <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+            </svg>
+            <svg
+              className="swap-on fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 512 512"
+            >
+              <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
             </svg>
           </label>
           <ul
@@ -124,7 +155,7 @@ const Navbar: React.FC = () => {
           viewBox="0 0 24 24"
           strokeWidth="2.5"
           stroke="currentColor"
-          className="h-6 w-6 text-green-500"
+          className="h-6 w-6 text-green-500 md:mx-3"
         >
           <path
             strokeLinecap="round"
@@ -132,7 +163,7 @@ const Navbar: React.FC = () => {
             d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
           />
         </svg>
-        <h2 className="ml-2 text-lg">SupaCode</h2>
+        <h2 className="ml-1 text-white sm:flex md:text-2xl">SupaCode</h2>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
