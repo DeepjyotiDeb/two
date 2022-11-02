@@ -80,7 +80,26 @@ export const postRouter = router({
                         email: true
                     }
                 },
-                comments: true
+                comments: {
+                    include: {
+                        user: {
+                            select: {
+                                id: true, email: true, name: true
+                            }
+                        },
+                    }
+                },
+                commentThread: {
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                email: true
+                            }
+                        }
+                    }
+                }
             }
         })
         if (!result) {

@@ -2,18 +2,20 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
+import CommentSection from "./CommentSection";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Post: React.FC = () => {
   const router = useRouter();
   const { data: sessionData } = useSession();
   const id = router.query.id as string;
-  const { data } = trpc.post.getSinglePost.useQuery(
+  const { data, isLoading } = trpc.post.getSinglePost.useQuery(
     { id: id },
     {
       retry: false,
       refetchOnWindowFocus: false,
       enabled: router.isReady,
-      onSuccess: (success) => console.log("success", success),
+      onSuccess: (success) => console.log("success", success, sessionData),
     }
   );
 
@@ -24,7 +26,7 @@ const Post: React.FC = () => {
   const { mutateAsync: postThreadComment } =
     trpc.comment.threadComment.useMutation();
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     console.log("data", data);
     e.preventDefault();
     if (sessionData?.user?.id) {
@@ -40,7 +42,7 @@ const Post: React.FC = () => {
       }
     }
   };
-  const threadSubmit = async (e: { preventDefault: () => void }) => {
+  const threadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (sessionData?.user?.id) {
       try {
@@ -57,15 +59,20 @@ const Post: React.FC = () => {
       }
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <section className="body-font bg-gray-800 text-gray-400">
       <div className="container mx-auto flex flex-col px-5 py-24">
         <div className="mx-auto lg:w-4/6">
-          <div className="h-64 overflow-hidden rounded-lg">
-            {/* <img alt="content" className="object-cover object-center h-full w-full" src="https://dummyimage.com/1200x500"> */}
-          </div>
-          <div className="mt-10 flex flex-col sm:flex-row">
-            <div className="text-center sm:w-1/3 sm:py-8 sm:pr-8">
+          {/* <div className="h-64 overflow-hidden rounded-lg"> */}
+          {/* <img alt="content" className="object-cover object-center h-full w-full" src="https://dummyimage.com/1200x500"> */}
+          {/* </div> */}
+          <div className="mt-1 flex flex-col items-center">
+            <div className="text-center  lg:py-8 lg:pr-8">
               <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-gray-800 text-gray-600">
                 <svg
                   fill="none"
@@ -91,7 +98,7 @@ const Post: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="mt-4 border-t border-gray-800 pt-4 text-center sm:mt-0 sm:w-2/3 sm:border-l sm:border-t-0 sm:py-8 sm:pl-8 sm:text-left">
+            <div className="mt-4 border-t border-gray-800 pt-4 text-center sm:mt-0  sm:border-l sm:border-t-0 sm:py-8 sm:pl-8 sm:text-left">
               <p className="mb-4 text-lg leading-relaxed">
                 Meggings portland fingerstache lyft, post-ironic fixie man bun
                 banh mi umami everyday carry hexagon locavore direct trade art
@@ -120,7 +127,17 @@ const Post: React.FC = () => {
             </div>
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
+        {data && sessionData && (
+          <CommentSection
+            userData={sessionData.user}
+            comments={data.comments}
+            commentThread={data.commentThread}
+          />
+        )}
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto w-full flex-col py-4  sm:rounded-lg sm:px-4 sm:py-4 md:w-2/3  md:px-4"
+        >
           <textarea
             rows={4}
             className="w-full"

@@ -34,6 +34,12 @@ export default defineNextConfig({
         // port: "",
         // pathname: "/",
       },
+      {
+        protocol: "https",
+        hostname: "source.unsplash.com",
+        // port: "",
+        // pathname: "/",
+      },
     ],
   },
 });
