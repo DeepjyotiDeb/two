@@ -38,8 +38,8 @@ export const postRouter = router({
             message: `Post created with ${result}`
         }
     }),
-    getPost: publicProcedure.query(async ({ }) => {
-        const result = await prisma?.post.findMany({
+    getPost: publicProcedure.query(async ({ ctx }) => {
+        const result = await ctx.prisma?.post.findMany({
             include: {
                 categories: {
                     select: {

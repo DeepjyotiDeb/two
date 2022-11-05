@@ -18,11 +18,16 @@ const Sidebar = ({ isOpen, setIsOpen }: IProps) => {
         onClick={() => setIsOpen(false)}
       ></label>
       <div
-        className={`fixed top-0 left-0 h-full w-[60vw] bg-black p-10 py-20 md:w-[35vw]  ${
+        className={`fixed top-0 left-0 h-full w-[60vw] bg-black py-20 md:w-[35vw]  ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } duration-300 ease-in-out`}
       >
-        <h2 className="text-2xl text-white">This is a sidebar</h2>
+        <button className=" btn-outline mt-2 w-full rounded-full bg-black p-1 text-2xl hover:bg-white">
+          This is a sidebar
+        </button>
+        <button className=" btn-outline mt-4 w-full rounded-full bg-black p-1 text-2xl hover:bg-white">
+          This is a sidebar
+        </button>
       </div>
     </div>
   );

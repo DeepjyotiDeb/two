@@ -1,11 +1,14 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 // import Link from "next/link";
 // import React from "react";
 
 const Navbar: React.FC = () => {
+  const router = useRouter();
   const { data: sessionData } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,8 +37,8 @@ const Navbar: React.FC = () => {
             <input
               type="checkbox"
               className="hidden"
-              onClick={() => setIsOpen(!isOpen)}
               checked={isOpen}
+              onChange={() => setIsOpen(!isOpen)}
             />
             <svg
               className="swap-off fill-current"
@@ -139,7 +142,7 @@ const Navbar: React.FC = () => {
         </ul>
       </div>
       <div className="navbar-end flex gap-4">
-        <div className="form-control">
+        <div className="form-control hidden md:flex">
           <input
             type="text"
             placeholder="Search"
@@ -159,11 +162,11 @@ const Navbar: React.FC = () => {
             tabIndex={0}
             className="dropdown-content menu rounded-box mt-4 w-52 bg-white text-black shadow"
           >
-            <li className="hover:bg-gray-900 hover:text-white">
-              <a>Item 1</a>
+            <li className="hover:bg-gray-900 hover:text-white ">
+              <button onClick={() => router.push("/users")}>Profile</button>
             </li>
             <li className="hover:bg-gray-900 hover:text-white">
-              <a>Item 2</a>
+              <a>Logout</a>
             </li>
           </ul>
         </div>
