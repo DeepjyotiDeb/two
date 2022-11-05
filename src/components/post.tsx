@@ -16,6 +16,10 @@ const Post: React.FC = () => {
       refetchOnWindowFocus: false,
       enabled: router.isReady,
       onSuccess: (success) => console.log("success", success, sessionData),
+      onError: (error) => {
+        console.log("error", error);
+        router.push("/");
+      },
     }
   );
 

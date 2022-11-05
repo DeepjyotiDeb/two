@@ -1,3 +1,5 @@
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction } from "react";
 
 interface IProps {
@@ -6,6 +8,9 @@ interface IProps {
 }
 
 const Sidebar = ({ isOpen, setIsOpen }: IProps) => {
+  const router = useRouter();
+  const { data } = useSession();
+
   return (
     <div>
       <label
@@ -22,11 +27,19 @@ const Sidebar = ({ isOpen, setIsOpen }: IProps) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } duration-300 ease-in-out`}
       >
-        <button className=" btn-outline mt-2 w-full rounded-full bg-black p-1 text-2xl hover:bg-white">
-          This is a sidebar
-        </button>
+        {data && (
+          <button
+            className=" btn-outline mt-2 w-full rounded-full bg-black p-1 text-2xl hover:bg-white"
+            onClick={() => {
+              setIsOpen(false);
+              router.push("/create-post");
+            }}
+          >
+            Create Post
+          </button>
+        )}
         <button className=" btn-outline mt-4 w-full rounded-full bg-black p-1 text-2xl hover:bg-white">
-          This is a sidebar
+          Canvas
         </button>
       </div>
     </div>

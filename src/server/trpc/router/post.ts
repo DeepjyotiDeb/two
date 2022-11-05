@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { postSchema, singlePostSchema } from '../../common/authSchema';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
+import * as bson from 'bson'
 
 
 export const postRouter = router({
@@ -63,51 +64,58 @@ export const postRouter = router({
     }),
     getSinglePost: publicProcedure.input(singlePostSchema).query(async ({ input }) => {
         const { id } = input
-        const result = await prisma?.post.findFirst({
-            where: {
-                id: id
-            },
-            include: {
-                categories: {
-                    select: {
-                        categoryName: true
-                    }
+        try {
+            const result = await prisma?.post.findFirst({
+                where: {
+                    id: id
                 },
-                user: {
-                    select: {
-                        id: true,
-                        name: true,
-                        email: true
-                    }
-                },
-                comments: {
-                    include: {
-                        user: {
-                            select: {
-                                id: true, email: true, name: true
-                            }
-                        },
-                    }
-                },
-                commentThread: {
-                    include: {
-                        user: {
-                            select: {
-                                id: true,
-                                name: true,
-                                email: true
+                include: {
+                    categories: {
+                        select: {
+                            categoryName: true
+                        }
+                    },
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true
+                        }
+                    },
+                    comments: {
+                        include: {
+                            user: {
+                                select: {
+                                    id: true, email: true, name: true
+                                }
+                            },
+                        }
+                    },
+                    commentThread: {
+                        include: {
+                            user: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    email: true
+                                }
                             }
                         }
                     }
                 }
+            })
+            if (!result) {
+                throw new TRPCError({
+                    code: 'BAD_REQUEST',
+                    message: "Post not found"
+                })
             }
-        })
-        if (!result) {
+            return result
+        } catch (error) {
             throw new TRPCError({
                 code: 'BAD_REQUEST',
-                message: "Post not found"
+                message: "Invalid Id",
             })
         }
-        return result
     })
 })

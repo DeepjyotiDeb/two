@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="navbar sticky top-0 z-50 bg-gray-900 ">
+    <div className="navbar sticky top-0 z-50 w-[100vw] bg-gray-900">
       <div className="navbar-start">
         <div className="dropdown">
           {/* <label tabIndex={0} className="btn-ghost btn lg:hidden">
@@ -93,21 +93,28 @@ const Navbar: React.FC = () => {
             </li>
           </ul> */}
         </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="2.5"
-          stroke="currentColor"
-          className="h-6 w-6 text-green-500 md:mx-3"
+        <div
+          className="flex cursor-pointer items-center"
+          onClick={() => router.push("/")}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
-          />
-        </svg>
-        <h2 className="ml-1 text-white sm:flex md:text-2xl">SupaCode</h2>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="2.5"
+            stroke="currentColor"
+            className="h-6 w-6 text-green-500 md:mx-3"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
+            />
+          </svg>
+          <h2 className="ml-1 cursor-pointer text-white sm:flex md:text-2xl">
+            SupaCode
+          </h2>
+        </div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
@@ -149,27 +156,43 @@ const Navbar: React.FC = () => {
             className="input-bordered input input-sm w-full max-w-xs"
           />
         </div>
-        <div className="dropdown-end dropdown">
-          <label
-            tabIndex={0}
-            className="placeholder btn-sm btn-circle avatar btn"
+        {!sessionData ? (
+          <button
+            className="btn-sm btn bg-white text-black hover:bg-green-600 hover:text-white"
+            onClick={() => signIn()}
           >
-            <div className="w-16 rounded-full bg-white text-neutral-content">
-              <span className="text-lg">J</span>
-            </div>
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu rounded-box mt-4 w-52 bg-white text-black shadow"
-          >
-            <li className="hover:bg-gray-900 hover:text-white ">
-              <button onClick={() => router.push("/users")}>Profile</button>
-            </li>
-            <li className="hover:bg-gray-900 hover:text-white">
-              <a>Logout</a>
-            </li>
-          </ul>
-        </div>
+            Sign Up / Login
+          </button>
+        ) : (
+          <div className="dropdown-end dropdown">
+            <label
+              tabIndex={0}
+              className="placeholder btn-sm btn-circle avatar btn"
+            >
+              <div className="w-16 rounded-full bg-white text-neutral-content">
+                <span className="text-lg">J</span>
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu rounded-box mt-4 w-52 bg-white text-black shadow"
+            >
+              <li className="hover:bg-gray-900 hover:text-white ">
+                <button onClick={() => router.push("/user")}>Profile</button>
+              </li>
+              <li className="hover:bg-gray-900 hover:text-white">
+                <button
+                  onClick={() => {
+                    signOut();
+                    router.push("/");
+                  }}
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

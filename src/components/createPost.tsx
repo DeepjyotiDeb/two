@@ -1,10 +1,47 @@
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
+import "react-quill/dist/quill.snow.css";
+import LoadingSpinner from "./LoadingSpinner";
+import dynamic from "next/dynamic";
+import ReactQuill from "react-quill";
+
+// const QuillNoSSRWrapper = dynamic(import("react-quill"), {
+//   ssr: false,
+//   loading: () => <LoadingSpinner />,
+// });
 
 const CreatePost: React.FC = () => {
   const { data } = useSession();
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      ["clean"],
+    ],
+  };
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+  ];
   const [text, setText] = useState({ title: "", category: "", body: "" });
+  const [convertedText, setConvertedText] = useState("");
   const { mutateAsync } = trpc.post.createPost.useMutation();
   const handleChange = (e: {
     preventDefault: () => void;
@@ -31,10 +68,10 @@ const CreatePost: React.FC = () => {
     }
   };
   return (
-    <section className="body-font mt-8 h-screen overflow-hidden bg-gray-800 text-gray-400">
-      <div className="container mx-auto px-5 py-24">
+    <section className="max-h-full overflow-hidden bg-yellow-600 text-gray-400">
+      {/* <div className="container mx-auto px-5 py-24">
         <form onSubmit={handleSubmit}>
-          <div className="m-2 flex min-h-min flex-wrap">
+          <div className="m-2 grow min-h-min flex-wrap">
             <label>Post Title</label>
             <textarea
               id="title"
@@ -71,6 +108,16 @@ const CreatePost: React.FC = () => {
             </div>
           </div>
         </form>
+      </div> */}
+      <div className="editor-container bg-blue-300 p-10">
+        <ReactQuill
+          theme="snow"
+          value={convertedText}
+          onChange={setConvertedText}
+          className="editor bg-white"
+          modules={modules}
+          formats={formats}
+        />
       </div>
     </section>
   );
