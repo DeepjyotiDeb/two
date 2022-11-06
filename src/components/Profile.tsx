@@ -2,11 +2,11 @@ import React from "react";
 
 const User: React.FC = () => {
   return (
-    <div className="flex w-full bg-gray-600">
-      <div className="card mx-auto w-full bg-base-100 shadow-xl lg:card-side">
-        <div className="card-body h-[1vw] w-full items-center bg-black">
-          <div className="placeholder avatar">
-            <div className="w-24 rounded-full bg-neutral-focus text-neutral-content">
+    <div className="flex w-full bg-gray-600 md:p-10">
+      <div className="card mx-auto w-full rounded-none bg-base-100 shadow-xl lg:card-side">
+        <div className="bg:gray-800 card-body h-[1vw] w-full items-center md:h-full md:w-[20px] md:bg-gray-900">
+          <div className="placeholder avatar mt-10">
+            <div className="w-24 rounded-full bg-neutral-focus text-neutral-content ">
               <span className="text-3xl">K</span>
             </div>
           </div>
@@ -15,13 +15,14 @@ const User: React.FC = () => {
           </div> */}
         </div>
         <div className="card-body md:min-w-[30vw]">
-          <h2 className="card-title">Name</h2>
+          <h2 className="card-title">About Me</h2>
+          <p>Name</p>
           <p>Email</p>
           <p>Bio</p>
           <p>Posts</p>
-          <div className="card-actions justify-end">
+          {/* <div className="card-actions justify-end">
             <button className="btn-primary btn">Listen</button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

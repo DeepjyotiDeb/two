@@ -15,7 +15,7 @@ const CommentSection = (props: {
   // }
   {
     return (
-      <div className="new">
+      <div className="mt-10">
         <div className="mx-auto w-full flex-col  border-t-2 py-4  sm:px-4  sm:py-4 md:px-4">
           <div className="flex flex-row">
             <div className="relative h-12 w-12 rounded-full border-2 border-gray-300 object-cover">

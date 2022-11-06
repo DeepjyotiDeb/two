@@ -9,29 +9,13 @@ import Sidebar from "./Sidebar";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="navbar sticky top-0 z-50 w-[100vw] bg-gray-900">
       <div className="navbar-start">
         <div className="dropdown">
-          {/* <label tabIndex={0} className="btn-ghost btn lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </label> */}
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
           <label className="swap-rotate swap btn-md btn-circle btn mr-2 bg-inherit text-white hover:bg-gray-600 lg:hidden">
             <input
@@ -59,39 +43,6 @@ const Navbar: React.FC = () => {
               <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
             </svg>
           </label>
-          {/* <ul
-            tabIndex={0}
-            className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
-          >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li tabIndex={0}>
-              <a className="justify-between">
-                Parent
-                <svg
-                  className="fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-                </svg>
-              </a>
-              <ul className="bg-gray-900 p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-          </ul> */}
         </div>
         <div
           className="flex cursor-pointer items-center"
@@ -156,14 +107,15 @@ const Navbar: React.FC = () => {
             className="input-bordered input input-sm w-full max-w-xs"
           />
         </div>
-        {!sessionData ? (
+        {status === "unauthenticated" && (
           <button
             className="btn-sm btn bg-white text-black hover:bg-green-600 hover:text-white"
             onClick={() => signIn()}
           >
             Sign Up / Login
           </button>
-        ) : (
+        )}
+        {status === "authenticated" && (
           <div className="dropdown-end dropdown">
             <label
               tabIndex={0}
@@ -191,6 +143,13 @@ const Navbar: React.FC = () => {
                 </button>
               </li>
             </ul>
+          </div>
+        )}
+        {status === "loading" && (
+          <div className="placeholder btn-sm btn-circle avatar btn">
+            <div className="w-16 rounded-full bg-white text-neutral-content">
+              <span className="text-lg"></span>
+            </div>
           </div>
         )}
       </div>

@@ -37,8 +37,10 @@ export default defineNextConfig({
       {
         protocol: "https",
         hostname: "source.unsplash.com",
-        // port: "",
-        // pathname: "/",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
       },
     ],
   },
