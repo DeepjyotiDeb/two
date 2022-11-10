@@ -2,14 +2,29 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { boolean } from "zod";
+import { useDebounce } from "../utils/debounce";
+import { trpc } from "../utils/trpc";
 import Sidebar from "./Sidebar";
 // import Link from "next/link";
 // import React from "react";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
+  const searchBox = useRef(false);
+  const [searchData, setSearchData] = useState(undefined);
+  const debouncedFilter = useDebounce(searchData, 1000);
   const { data: sessionData, status } = useSession();
+  const { data, refetch } = trpc.search.searchField.useQuery(
+    { userId: debouncedFilter },
+    {
+      retry: false,
+      enabled: Boolean(debouncedFilter),
+      refetchOnWindowFocus: false,
+      onSuccess: (success) => console.log("response", success),
+    }
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -70,9 +85,9 @@ const Navbar: React.FC = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
           <li>
-            <a>Item 1</a>
+            <a>Home</a>
           </li>
-          <li tabIndex={0}>
+          {/* <li tabIndex={0}>
             <a>
               Parent
               <svg
@@ -93,20 +108,67 @@ const Navbar: React.FC = () => {
                 <a>Submenu 2</a>
               </li>
             </ul>
+          </li> */}
+          <li>
+            <a>Canvas</a>
           </li>
           <li>
-            <a>Item 3</a>
+            <a>Contact</a>
           </li>
         </ul>
       </div>
       <div className="navbar-end flex gap-4">
-        <div className="form-control hidden md:flex">
-          <input
+        <div className="form-control relative hidden flex-row items-center md:flex">
+          <label className="hidden" htmlFor="searchInput" id="searchLabel">
+            Search
+          </label>
+          {/* <input
             type="text"
             placeholder="Search"
+            className="dropdown input-bordered input input-sm w-full max-w-xs"
+            aria-labelledby="search"
+            aria-autocomplete="list"
+          /> */}
+          <input
+            id="top-nav-search-input"
+            aria-autocomplete="list"
+            aria-controls="top-nav-search-menu"
+            aria-labelledby="top-nav-search-label"
+            autoComplete="off"
+            type="search"
             className="input-bordered input input-sm w-full max-w-xs"
-          />
+            name="q"
+            onChange={(e) => setSearchData(e.target.value)}
+          ></input>
+          <button
+            className="btn-sm btn normal-case hover:bg-yellow-100"
+            onClick={async () => {
+              console.log("serach", searchData);
+              await refetch().then((res) => console.log("res", res.data));
+            }}
+          >
+            Search
+          </button>
+          {/* <div
+            id="top-nav-search-menu"
+            role="listbox"
+            aria-labelledby="top-nav-search-label"
+          >
+            <div className="search-results cursor-pointer">
+              <div
+                role="option"
+                aria-selected="false"
+                id="top-nav-search-item-0"
+                className="result-item   bg-green-100"
+              >
+                <a href="" tabIndex={1}>
+                  item
+                </a>
+              </div>
+            </div>
+          </div> */}
         </div>
+
         {status === "unauthenticated" && (
           <button
             className="btn-sm btn bg-white text-black hover:bg-green-600 hover:text-white"

@@ -1,11 +1,13 @@
 // src/server/trpc/router/_app.ts
-import { router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 import { exampleRouter } from "./example";
 import { authRouter } from "./auth";
 import { registerUserRouter } from './register';
 import { forgotPasswordRouter } from './forgotpassword';
 import { postRouter } from './post';
 import { commentRouter } from './comment';
+import { userRouter } from './user';
+import { searchField } from './searchfield';
 // import { nextHandler } from 'trpc-playground/handlers/next'
 
 export const appRouter = router({
@@ -14,7 +16,10 @@ export const appRouter = router({
   register: registerUserRouter,
   forgotpassword: forgotPasswordRouter,
   post: postRouter,
-  comment: commentRouter
+  comment: commentRouter,
+  user: userRouter,
+  search: searchField,
+  healthcheck: publicProcedure.query(() => "yay!"),
 });
 
 // export type definition of API

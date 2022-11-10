@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 import CommentSection from "./CommentSection";
 import LoadingSpinner from "./LoadingSpinner";
-import Image from "next/image";
-// import bf from '../../public'
 
 const Post: React.FC = () => {
   const router = useRouter();

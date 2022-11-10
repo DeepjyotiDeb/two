@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextIndex", "fullTextSearch"]
 }
 
 datasource db {
@@ -79,10 +80,12 @@ model Post {
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
   userId        String
-  user          User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user          User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments      Comment[]
   categories    CategoryOnPost[]
   commentThread CommentThread[]
+
+  @@fulltext([title, body])
 }
 
 model Category {
@@ -107,9 +110,9 @@ model Comment {
   createdAt     DateTime        @default(now())
   body          String
   userId        String
-  user          User            @relation(fields: [userId], references: [id], onDelete: SetNull) //if user is deleted, dont delete comment?
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade) //if user is deleted, dont delete comment?
   postId        String
-  post          Post?           @relation(fields: [postId], references: [id], onDelete: SetNull)
+  post          Post?           @relation(fields: [postId], references: [id], onDelete: Cascade)
   commentThread CommentThread[]
 }
 
@@ -118,11 +121,11 @@ model CommentThread {
   createdAt       DateTime @default(now())
   body            String
   userId          String
-  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   parentCommentId String
-  comment         Comment? @relation(fields: [parentCommentId], references: [id], onDelete: SetNull)
+  comment         Comment? @relation(fields: [parentCommentId], references: [id], onDelete: Cascade)
   postId          String
-  post            Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+  post            Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 enum UserType {

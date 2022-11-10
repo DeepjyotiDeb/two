@@ -42,6 +42,10 @@ export default defineNextConfig({
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: "https",
+        hostname: "randomuser.me",
+      },
     ],
   },
 });

@@ -42,6 +42,11 @@ export const commentThreadSchema = z.object({
     postId: z.string()
 })
 
+export const getUserSchema = z.object({
+    userId: z.string(),
+})
+
+export type IGetUser = z.infer<typeof getUserSchema>
 export type ILogin = z.infer<typeof loginSchema>;
 export type ISignUp = z.infer<typeof signUpSchema>
 export type IForgot = z.infer<typeof forgotPasswordSchema>;

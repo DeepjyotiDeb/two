@@ -35,8 +35,8 @@ const Posts: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col overflow-hidden bg-gray-800 text-gray-400">
-      <section className="relative min-h-[60vh] w-full sm:h-full">
+    <div className="flex  min-h-screen w-full flex-col overflow-hidden bg-gray-50 text-gray-400">
+      <section className="relative min-h-[60vh] sm:h-full">
         <div
           className={`absolute z-10 grid  min-h-full place-items-center overflow-hidden bg-[#f3ff49] `}
           id="left-side"
@@ -61,56 +61,34 @@ const Posts: React.FC = () => {
         </div>
       </section>
 
-      <section className=" mt-0 flex h-full w-full overflow-hidden bg-gray-800 text-gray-400">
-        <div className="container mx-auto w-5/6 px-5 py-10">
-          <div className="-my-8 divide-y-2 divide-gray-800">
-            <div className="flex flex-wrap py-8 md:flex-nowrap">
-              <div className="mb-6 flex items-center space-x-3 md:mb-0 md:w-44 md:flex-shrink-0 md:flex-col">
-                <div className="placeholder avatar mx-1 mb-3">
-                  <div className="w-16 rounded-full bg-neutral-focus text-neutral-content">
-                    <span className="text-xl">JO</span>
+      <section className=" flex h-full flex-col items-center justify-center overflow-hidden border-red-800 bg-gray-50 py-10 px-5 text-gray-400 md:flex-row">
+        <div className="flex flex-col gap-4 py-10 md:w-5/6 md:px-5">
+          {[1, 2].map((item, key) => (
+            <div className="container card " key={key}>
+              <div className="card-body rounded-2xl bg-gray-700">
+                <div className="card-title flex flex-col">
+                  <div className="placeholder avatar">
+                    <div className="w-16 rounded-full bg-neutral-focus text-neutral-content">
+                      <span className="text-xl">JO</span>
+                    </div>
                   </div>
+                  <h1 className="text-xl text-white">Title of a post</h1>
                 </div>
-                <div className="flex flex-col">
-                  <span className="title-font font-semibold text-white">
-                    CATEGORY
-                  </span>
-                  <span className="mt-1 text-sm text-gray-500">
-                    12 Jun 2019
-                  </span>
+                <div className="card-body border-red-400 p-0 text-left">
+                  <p className="text-white">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Perspiciatis, molestiae? Corporis repellat perferendis
+                    perspiciatis, atque ipsam eos similique accusantium id
+                    maiores doloribus iure maxime, optio eligendi dolor, aperiam
+                    repudiandae veniam!
+                  </p>
                 </div>
-              </div>
-              <div className="md:flex-grow">
-                <h2 className="title-font mb-2 text-2xl font-medium text-white">
-                  Bitters hashtag waistcoat fashion axe chia unicorn
-                </h2>
-                <p className="leading-relaxed">
-                  Glossier echo park pug, church-key sartorial biodiesel
-                  vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf
-                  moon party messenger bag selfies, poke vaporware kombucha
-                  lumbersexual pork belly polaroid hoodie portland craft beer.
-                </p>
-                <a className="mt-4 inline-flex items-center text-green-400">
-                  Learn More
-                  <svg
-                    className="ml-2 h-4 w-4"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14"></path>
-                    <path d="M12 5l7 7-7 7"></path>
-                  </svg>
-                </a>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-        <div className="container hidden md:mx-auto md:flex md:w-3/12 md:px-5 md:py-10">
-          <div className="md:divider md:divider-horizontal" />
+        <div className="divider divider-vertical md:divider-horizontal" />
+        <div className="container md:mx-auto md:flex md:w-3/12 md:px-5 md:py-10">
           <div className="container">
             <p>Recent activities</p>
           </div>

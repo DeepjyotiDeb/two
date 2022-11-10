@@ -8,7 +8,7 @@ import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt'
 
 export const forgotPasswordRouter = router({
-    forgotpassword: publicProcedure.input(forgotPasswordSchema).mutation(async ({ input, ctx }) => {
+    forgotpassword: publicProcedure.input(forgotPasswordSchema).mutation(async ({ input }) => {
 
         const oauth2client = new google.auth.OAuth2(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, env.REDIRECT_URI)
         oauth2client.setCredentials({ refresh_token: env.REFRESH_TOKEN })
@@ -68,7 +68,7 @@ export const forgotPasswordRouter = router({
         }
 
     }),
-    resetpassword: publicProcedure.input(tokenSchema).query(async ({ input, ctx }) => {
+    resetpassword: publicProcedure.input(tokenSchema).query(async ({ input }) => {
         const { token } = input as jwt.JwtPayload
         if (token === undefined) {
             throw new TRPCError({
