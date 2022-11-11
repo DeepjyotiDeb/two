@@ -6,25 +6,28 @@ import { useRef, useState } from "react";
 import { boolean } from "zod";
 import { useDebounce } from "../utils/debounce";
 import { trpc } from "../utils/trpc";
+import MiniLoader from "./MiniLoader";
 import Sidebar from "./Sidebar";
 // import Link from "next/link";
 // import React from "react";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
-  const searchBox = useRef(false);
-  const [searchData, setSearchData] = useState(undefined);
+  // const searchBox = useRef(false);
+  const [searchData, setSearchData] = useState("");
+
   const debouncedFilter = useDebounce(searchData, 1000);
   const { data: sessionData, status } = useSession();
-  const { data, refetch } = trpc.search.searchField.useQuery(
+  const { data, isFetched, isFetching } = trpc.search.searchField.useQuery(
     { userId: debouncedFilter },
     {
       retry: false,
-      enabled: Boolean(debouncedFilter),
+      enabled: Boolean(debouncedFilter) && debouncedFilter.length > 3,
       refetchOnWindowFocus: false,
       onSuccess: (success) => console.log("response", success),
     }
   );
+  console.log("data", data);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -118,7 +121,7 @@ const Navbar: React.FC = () => {
         </ul>
       </div>
       <div className="navbar-end flex gap-4">
-        <div className="form-control relative hidden flex-row items-center md:flex">
+        <div className="form-control relative hidden items-center md:flex">
           <label className="hidden" htmlFor="searchInput" id="searchLabel">
             Search
           </label>
@@ -140,7 +143,7 @@ const Navbar: React.FC = () => {
             name="q"
             onChange={(e) => setSearchData(e.target.value)}
           ></input>
-          <button
+          {/* <button
             className="btn-sm btn normal-case hover:bg-yellow-100"
             onClick={async () => {
               console.log("serach", searchData);
@@ -148,25 +151,45 @@ const Navbar: React.FC = () => {
             }}
           >
             Search
-          </button>
-          {/* <div
-            id="top-nav-search-menu"
-            role="listbox"
-            aria-labelledby="top-nav-search-label"
-          >
-            <div className="search-results cursor-pointer">
-              <div
-                role="option"
-                aria-selected="false"
-                id="top-nav-search-item-0"
-                className="result-item   bg-green-100"
-              >
-                <a href="" tabIndex={1}>
-                  item
-                </a>
+          </button> */}
+          {isFetching && (
+            <div
+              id="top-nav-search-menu"
+              role="listbox"
+              aria-labelledby="top-nav-search-label"
+              className="absolute mt-10 w-full p-0.5"
+            >
+              <div className="search-results cursor-pointer">
+                <div
+                  role="option"
+                  aria-selected="false"
+                  id="top-nav-search-item-0"
+                  className="result-item  flex flex-col items-center rounded-md bg-gray-100 p-1 text-black"
+                >
+                  <MiniLoader />
+                </div>
               </div>
             </div>
-          </div> */}
+          )}
+          {isFetched && (
+            <div
+              id="top-nav-search-menu"
+              role="listbox"
+              aria-labelledby="top-nav-search-label"
+              className="absolute mt-10 w-full p-0.5"
+            >
+              <div className="search-results cursor-pointer">
+                <div
+                  role="option"
+                  aria-selected="false"
+                  id="top-nav-search-item-0"
+                  className="result-item  flex flex-col items-center rounded-md bg-gray-100 p-1 text-black"
+                >
+                  test
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {status === "unauthenticated" && (
