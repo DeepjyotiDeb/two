@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import { boolean } from "zod";
 import { useDebounce } from "../utils/debounce";
 import { trpc } from "../utils/trpc";
-import MiniLoader from "./MiniLoader";
+import { MiniLoader } from "./MiniLoader";
 import Sidebar from "./Sidebar";
 // import Link from "next/link";
 // import React from "react";
@@ -22,12 +22,12 @@ const Navbar: React.FC = () => {
     { userId: debouncedFilter },
     {
       retry: false,
-      enabled: Boolean(debouncedFilter) && debouncedFilter.length > 3,
       refetchOnWindowFocus: false,
+      enabled: Boolean(debouncedFilter) && debouncedFilter.length > 3,
       onSuccess: (success) => console.log("response", success),
     }
   );
-  console.log("data", data);
+  // console.log("navbar srch", data, debouncedFilter);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
       <div className="navbar-start">
         <div className="dropdown">
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-          <label className="swap-rotate swap btn-md btn-circle btn mr-2 bg-inherit text-white hover:bg-gray-600 lg:hidden">
+          <label className="swap swap-rotate btn-md btn-circle btn mr-2 bg-inherit text-white hover:bg-gray-600 lg:hidden">
             <input
               type="checkbox"
               className="hidden"
