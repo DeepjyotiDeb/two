@@ -5,6 +5,7 @@ import { MouseEvent, Touch, TouchEvent, useEffect, useState } from "react";
 import { trpc } from "../utils/trpc";
 import { JSDOM } from "jsdom";
 import LoadingSpinner from "./LoadingSpinner";
+import Link from "next/link";
 
 const Posts: React.FC = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const Posts: React.FC = () => {
     }
   };
 
-  const purifiedData = (htmlData: any) => {
+  const purifiedData = (htmlData: string) => {
     const clean = DOMPurify.sanitize(htmlData);
     return clean;
   };
@@ -49,7 +50,7 @@ const Posts: React.FC = () => {
 
   return (
     <div className="flex  min-h-screen w-full flex-col overflow-hidden bg-gray-50 text-gray-400">
-      <section className="relative min-h-[50vh] ">
+      {/* <section className="relative min-h-[50vh] ">
         <div
           className={`absolute z-10 grid  min-h-full place-items-center overflow-hidden bg-[#f3ff49] `}
           id="left-side"
@@ -72,15 +73,19 @@ const Posts: React.FC = () => {
             Read <span className="italic">Something</span>
           </h2>
         </div>
-      </section>
+      </section> */}
 
-      <section className=" flex h-full flex-col items-center justify-center overflow-hidden border-red-800 bg-gray-50 py-10 px-5 text-gray-400 md:flex-row">
-        <div className="flex flex-col gap-4 py-10 md:w-5/6 md:px-5">
+      <section
+        className=" flex h-full flex-col items-center justify-center overflow-hidden
+      bg-gradient-to-b from-gray-500 to-gray-900
+      py-0 px-5 text-gray-400 md:flex-row"
+      >
+        <div className="flex w-full flex-col gap-4 py-4 md:w-5/6 md:px-5">
           {Posts &&
             Posts.map((post, key) => (
               <div className="container card " key={key}>
                 <div className="card-body rounded-2xl bg-gray-700">
-                  <div className="card-title flex flex-col">
+                  <div className="card-title flex flex-row ">
                     <div className="placeholder avatar">
                       <div className="w-16 rounded-full bg-neutral-focus text-neutral-content">
                         <span className="text-xl">
@@ -88,12 +93,24 @@ const Posts: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <h1 className="text-xl text-white">{post?.title}</h1>
+                    <div>
+                      <Link href={`${post.id}`}>
+                        <p
+                          className="text-xl text-white hover:text-white"
+                          onClick={() => console.log("heading to page")}
+                        >
+                          {post?.title}
+                        </p>
+                      </Link>
+                      <p className="text-xs">
+                        {post?.createdAt.toString().substring(0, 15)}
+                      </p>
+                    </div>
                   </div>
                   <div className="card-body border-red-400 p-0 text-left">
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: purifiedData(post?.body),
+                        __html: purifiedData(post?.body.substring(0, 50)),
                       }}
                       className="text-white"
                     ></div>

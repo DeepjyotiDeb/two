@@ -1,8 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { postSchema, singlePostSchema } from '../../common/authSchema';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
-import * as bson from 'bson'
-
 
 export const postRouter = router({
     createPost: protectedProcedure.input(postSchema).mutation(async ({ input }) => {
@@ -39,8 +37,10 @@ export const postRouter = router({
             message: `Post created with ${result}`
         }
     }),
-    getPost: publicProcedure.query(async ({ ctx }) => {
-        const result = await ctx.prisma?.post.findMany({
+    getPost: publicProcedure.query(async ({ }) => {
+        const result = await prisma?.post.findMany({
+            skip: 0, //* will be returned as numbers from frontend?
+            take: 2,
             include: {
                 categories: {
                     select: {
@@ -57,7 +57,7 @@ export const postRouter = router({
                         comments: true
                     }
                 }
-            }
+            }, orderBy: { createdAt: 'desc' }
         })
 
         return result

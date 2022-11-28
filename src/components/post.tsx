@@ -1,11 +1,18 @@
+import DOMPurify from "dompurify";
+import { InferGetStaticPropsType } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+// import { getStaticProps } from "../pages/[id]";
 import { trpc } from "../utils/trpc";
 import CommentSection from "./CommentSection";
 import LoadingSpinner from "./LoadingSpinner";
+import { PlaceholderText } from "./placeholder";
 
-const Post: React.FC = () => {
+// const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Post = () => {
+  // const { id: testId } = props;
+  // console.log("id test", testId);
   const router = useRouter();
   const { data: sessionData } = useSession();
   const id = router.query.id as string;
@@ -64,9 +71,23 @@ const Post: React.FC = () => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div role="status" className="max-w-sm animate-pulse">
+  //       <div className="mb-4 h-2.5 w-48 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+  //       <div className="mb-2.5 h-2 max-w-[360px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+  //       <div className="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+  //       <div className="mb-2.5 h-2 max-w-[330px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+  //       <div className="mb-2.5 h-2 max-w-[300px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+  //       <div className="h-2 max-w-[360px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+  //       <span className="sr-only">Loading...</span>
+  //     </div>
+  //   );
+  // }
+  const purifiedData = (htmlData: string) => {
+    const clean = DOMPurify.sanitize(htmlData);
+    return clean;
+  };
 
   // const myLoader = ({ src, width, quality }) => {
   //   return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
@@ -76,28 +97,16 @@ const Post: React.FC = () => {
       <div className="card md:w-3/4 md:p-8 md:pr-0">
         <div className="card-body flex w-full flex-col justify-center  bg-base-100 shadow-xl md:rounded-xl">
           <div className="h-96 w-full bg-[url('../../public/random.jpeg')]"></div>
-          <h1 className="text-center text-6xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </h1>
-          <div className="mt-10">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil
-            veniam similique cupiditate alias perferendis iste dolorum ipsam
-            harum dolores ducimus laudantium voluptates recusandae placeat sit
-            ab aliquid, vel non asperiores? Lorem ipsum dolor sit, amet
-            consectetur adipisicing elit. Nihil veniam similique cupiditate
-            alias perferendis iste dolorum ipsam harum dolores ducimus
-            laudantium voluptates recusandae placeat sit ab aliquid, vel non
-            asperiores? Lorem ipsum dolor sit, amet consectetur adipisicing
-            elit. Nihil veniam similique cupiditate alias perferendis iste
-            dolorum ipsam harum dolores ducimus laudantium voluptates recusandae
-            placeat sit ab aliquid, vel non asperiores? Nihil veniam similique
-            cupiditate alias perferendis iste dolorum ipsam harum dolores
-            ducimus laudantium voluptates recusandae placeat sit ab aliquid, vel
-            non asperiores? Lorem ipsum dolor sit, amet consectetur adipisicing
-            elit. Nihil veniam similique cupiditate alias perferendis iste
-            dolorum ipsam harum dolores ducimus laudantium voluptates recusandae
-            placeat sit ab aliquid, vel non asperiores?
-          </div>
+          {data && <h1 className="text-center text-6xl">{data.title}</h1>}
+          {data && (
+            <div
+              className="mt-10"
+              dangerouslySetInnerHTML={{
+                __html: purifiedData(data.body),
+              }}
+            ></div>
+          )}
+          <PlaceholderText isLoading={isLoading} />
           {sessionData && data && (
             <CommentSection
               userData={sessionData.user}
