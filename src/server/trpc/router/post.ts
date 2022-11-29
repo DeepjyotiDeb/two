@@ -62,10 +62,10 @@ export const postRouter = router({
 
         return result
     }),
-    getSinglePost: publicProcedure.input(singlePostSchema).query(async ({ input }) => {
+    getSinglePost: publicProcedure.input(singlePostSchema).query(async ({ ctx, input }) => {
         const { id } = input
         try {
-            const result = await prisma?.post.findFirst({
+            const result = await ctx.prisma?.post.findFirst({
                 where: {
                     id: id
                 },
