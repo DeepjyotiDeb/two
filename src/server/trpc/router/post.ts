@@ -37,8 +37,8 @@ export const postRouter = router({
             message: `Post created with ${result}`
         }
     }),
-    getPost: publicProcedure.query(async ({ }) => {
-        const result = await prisma?.post.findMany({
+    getPost: publicProcedure.query(async ({ ctx }) => {
+        const result = await ctx.prisma?.post.findMany({
             skip: 0, //* will be returned as numbers from frontend?
             take: 2,
             include: {
