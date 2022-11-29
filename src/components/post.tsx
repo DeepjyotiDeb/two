@@ -7,18 +7,18 @@ import { getStaticProps } from "../pages/[id]";
 // import { getStaticProps } from "../pages/[id]";
 import { trpc } from "../utils/trpc";
 import CommentSection from "./CommentSection";
-import LoadingSpinner from "./LoadingSpinner";
+// import LoadingSpinner from "./LoadingSpinner";
 import { PlaceholderText } from "./placeholder";
 
 const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const Post = () => {
-  // const { id: testId } = props;
-  // console.log("id test", testId);
+  const { id: testId } = props;
+  console.log("id test", testId);
   const router = useRouter();
   const { data: sessionData } = useSession();
-  const id = router.query.id as string;
+  // const id = router.query.id as string;
   const { data, isLoading } = trpc.post.getSinglePost.useQuery(
-    { id: id },
+    { id: testId },
     {
       retry: false,
       refetchOnWindowFocus: false,
@@ -45,7 +45,8 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       try {
         const res = await postNewComment({
           comment: comment,
-          postId: id,
+          // postId: id,
+          postId: testId,
           userId: sessionData.user.id,
         });
         console.log("res", res);
@@ -61,7 +62,8 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         const res = await postThreadComment({
           //636016b6220489f11d693ad5
           comment: comment,
-          postId: id,
+          // postId: id,
+          postId: testId,
           userId: sessionData.user.id,
           parentCommentId: "636016b6220489f11d693ad5",
         });
@@ -111,7 +113,7 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
               }}
             ></div>
           )}
-          <PlaceholderText isLoading={isLoading} />
+          {isLoading && <PlaceholderText />}
           {sessionData && data && (
             <CommentSection
               userData={sessionData.user}
