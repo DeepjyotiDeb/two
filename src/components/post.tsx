@@ -3,14 +3,15 @@ import { InferGetStaticPropsType } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { getStaticProps } from "../pages/[id]";
 // import { getStaticProps } from "../pages/[id]";
 import { trpc } from "../utils/trpc";
 import CommentSection from "./CommentSection";
 import LoadingSpinner from "./LoadingSpinner";
 import { PlaceholderText } from "./placeholder";
 
-// const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-const Post = () => {
+const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+  // const Post = () => {
   // const { id: testId } = props;
   // console.log("id test", testId);
   const router = useRouter();
@@ -84,6 +85,10 @@ const Post = () => {
   //     </div>
   //   );
   // }
+  if (router.isFallback) {
+    console.log("router", router.isFallback);
+    return <div>Loading...</div>;
+  }
   const purifiedData = (htmlData: string) => {
     const clean = DOMPurify.sanitize(htmlData);
     return clean;

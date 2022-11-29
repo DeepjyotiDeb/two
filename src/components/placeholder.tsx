@@ -1,6 +1,6 @@
 import React from "react";
 
-export const PlaceholderText = ({ isLoading }) => {
+export const PlaceholderText = (isLoading: any) => {
   return (
     isLoading && (
       <div role="status" className="max-w-lg animate-pulse space-y-2.5">
