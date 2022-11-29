@@ -94,14 +94,7 @@ const Posts: React.FC = () => {
                       </div>
                     </div>
                     <div>
-                      <Link href={`${post.id}`}>
-                        <p
-                          className="text-xl text-white hover:text-white"
-                          onClick={() => console.log("heading to page")}
-                        >
-                          {post?.title}
-                        </p>
-                      </Link>
+                      <Link href={`${post.id}`}>{post?.title}</Link>
                       <p className="text-xs">
                         {post?.createdAt.toString().substring(0, 15)}
                       </p>
