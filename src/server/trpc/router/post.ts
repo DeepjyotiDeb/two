@@ -15,7 +15,7 @@ export const postRouter = router({
             })
         }
 
-        const result = await prisma?.post.create({
+        const result = await ctx.prisma?.post.create({
             data: {
                 title, body, userId,
                 categories: {
