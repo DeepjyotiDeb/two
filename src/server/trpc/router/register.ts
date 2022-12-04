@@ -12,7 +12,7 @@ export const registerUserRouter = router({
     signup: publicProcedure.input(signUpSchema).mutation(async ({ input, ctx }) => {
 
         const { email, username, password } = input;
-        const exists = await prisma?.user.findFirst({
+        const exists = await ctx.prisma?.user.findFirst({
             where: { email }
         })
         if (exists) {
@@ -27,7 +27,7 @@ export const registerUserRouter = router({
         const saltRounds = 10;
         const newPass = await bcrypt.hash(password, saltRounds)
 
-        const result = await prisma?.user.create({
+        const result = await ctx.prisma?.user.create({
             data: {
                 id: randomId,
                 email,
@@ -36,7 +36,7 @@ export const registerUserRouter = router({
                 userType: "LOCAL"
             }
         })
-        await prisma?.account.create({
+        await ctx.prisma?.account.create({
             data: {
                 provider: "credentials", type: "local",
                 providerAccountId: randomUUID(),

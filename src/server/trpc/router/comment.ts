@@ -3,9 +3,9 @@ import { commentSchema, commentThreadSchema } from '../../common/authSchema';
 import { protectedProcedure, router } from '../trpc';
 
 export const commentRouter = router({
-    postComment: protectedProcedure.input(commentSchema).mutation(async ({ input }) => {
+    postComment: protectedProcedure.input(commentSchema).mutation(async ({ input, ctx }) => {
         const { comment, userId, postId } = input
-        const isUser = await prisma?.user.findFirst({
+        const isUser = await ctx.prisma?.user.findFirst({
             where: {
                 id: userId
             }
@@ -16,7 +16,7 @@ export const commentRouter = router({
                 message: 'User not found'
             })
         }
-        const result = await prisma?.comment.create({
+        const result = await ctx.prisma?.comment.create({
             data: {
                 userId: userId,
                 body: comment,
@@ -25,9 +25,9 @@ export const commentRouter = router({
         })
         return result
     }),
-    threadComment: protectedProcedure.input(commentThreadSchema).mutation(async ({ input }) => {
+    threadComment: protectedProcedure.input(commentThreadSchema).mutation(async ({ ctx, input }) => {
         const { comment, parentCommentId, userId, postId } = input
-        const isUser = await prisma?.user.findFirst({
+        const isUser = await ctx.prisma?.user.findFirst({
             where: {
                 id: userId
             }
@@ -39,7 +39,7 @@ export const commentRouter = router({
             })
         }
 
-        const result = await prisma?.commentThread.create({
+        const result = await ctx.prisma?.commentThread.create({
             data: {
                 body: comment,
                 parentCommentId: parentCommentId,

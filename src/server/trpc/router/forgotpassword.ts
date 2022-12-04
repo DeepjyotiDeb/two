@@ -8,7 +8,7 @@ import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt'
 
 export const forgotPasswordRouter = router({
-    forgotpassword: publicProcedure.input(forgotPasswordSchema).mutation(async ({ input }) => {
+    forgotpassword: publicProcedure.input(forgotPasswordSchema).mutation(async ({ ctx, input }) => {
 
         const oauth2client = new google.auth.OAuth2(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, env.REDIRECT_URI)
         oauth2client.setCredentials({ refresh_token: env.REFRESH_TOKEN })
@@ -16,7 +16,7 @@ export const forgotPasswordRouter = router({
         console.log('input field', input.email)
 
         const { email } = input;
-        const user = await prisma?.user.findFirst({ where: { email } })
+        const user = await ctx.prisma?.user.findFirst({ where: { email } })
         if (!user) {
             throw new TRPCError({
                 code: 'NOT_FOUND',
@@ -90,14 +90,14 @@ export const forgotPasswordRouter = router({
     }),
     newpassword: publicProcedure
         .input(resetPassword)
-        .mutation(async ({ input }) => {
+        .mutation(async ({ input, ctx }) => {
             const { newpass, token } = input
             const tokenValue = jwt.verify(token, env.NEXTAUTH_SECRET) as jwt.JwtPayload
             // const {id} = tokenValue
             console.log('token value', tokenValue)
             const saltRounds = 10;
             const changedPass = await bcrypt.hash(newpass, saltRounds)
-            const result = await prisma?.user.update({
+            const result = await ctx.prisma?.user.update({
                 where: {
                     id: tokenValue.id
                 },

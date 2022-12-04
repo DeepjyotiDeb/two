@@ -4,11 +4,11 @@ import { getUserSchema } from '../../common/authSchema';
 import { publicProcedure, router } from '../trpc';
 
 export const searchField = router({
-    searchField: publicProcedure.input(getUserSchema).query(async ({ input }) => {
+    searchField: publicProcedure.input(getUserSchema).query(async ({ ctx, input }) => {
         const { userId } = input
         console.log('userId', userId)
         // const result = await prisma?.post.findRaw({ filter: { $text: { $search: userId } } })
-        const result = await prisma?.post.aggregateRaw({
+        const result = await ctx.prisma?.post.aggregateRaw({
             pipeline: [
                 {
                     $search: {

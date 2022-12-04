@@ -3,10 +3,10 @@ import { postSchema, singlePostSchema } from '../../common/authSchema';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const postRouter = router({
-    createPost: protectedProcedure.input(postSchema).mutation(async ({ input }) => {
+    createPost: protectedProcedure.input(postSchema).mutation(async ({ ctx, input }) => {
         const { title, body, userId, category } = input
 
-        const user = await prisma?.user.findFirst({ where: { id: userId } })
+        const user = await ctx.prisma?.user.findFirst({ where: { id: userId } })
         // console.log('user', user)
         if (!user) {
             throw new TRPCError({

@@ -4,9 +4,9 @@ import { exclude } from '../../common/excludePassword'
 import { protectedProcedure, router } from '../trpc'
 
 export const userRouter = router({
-    getUser: protectedProcedure.input(getUserSchema).query(async ({ input }) => {
+    getUser: protectedProcedure.input(getUserSchema).query(async ({ input, ctx }) => {
         const { userId } = input
-        const isUser = await prisma?.user.findFirst({
+        const isUser = await ctx.prisma?.user.findFirst({
             where: {
                 id: userId
             },
