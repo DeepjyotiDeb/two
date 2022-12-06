@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
       <div className="navbar-start">
         <div className="dropdown">
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-          <label className="swap swap-rotate btn-md btn-circle btn mr-2 bg-inherit text-white hover:bg-gray-600 lg:hidden">
+          <label className="swap-rotate swap btn-md btn-circle btn mr-2 bg-inherit text-white hover:bg-gray-600 lg:hidden">
             <input
               type="checkbox"
               className="hidden"

@@ -18,7 +18,7 @@ const Sidebar = ({ isOpen, setIsOpen }: IProps) => {
         //   isOpen ? "translate-x-0" : "-translate-x-full"
         // } duration-300 ease-in-out`}
         className={`${
-          isOpen ? "drawer-overlay" : "drawer-offlay"
+          isOpen === true ? "drawer-overlay" : "drawer-offlay"
         } animate-fade-in-down`}
         onClick={() => setIsOpen(false)}
       ></label>
