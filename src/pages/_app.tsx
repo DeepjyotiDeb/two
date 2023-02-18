@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Layout>
+      <Layout title="Supacode!">
         <Component {...pageProps} />
       </Layout>
     </SessionProvider>

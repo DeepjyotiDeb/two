@@ -40,7 +40,7 @@ export const postRouter = router({
     getPost: publicProcedure.query(async ({ ctx }) => {
         const result = await ctx.prisma?.post.findMany({
             skip: 0, //* will be returned as numbers from frontend?
-            take: 2,
+            take: 5,
             include: {
                 categories: {
                     select: {

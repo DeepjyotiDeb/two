@@ -1,5 +1,4 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -26,7 +25,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'Creds',
       credentials: {
-        email: { label: "email", type: "text", placeholder: "jsmith" },
+        email: { label: "Email", type: "text", placeholder: "Email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {

@@ -22,9 +22,9 @@ const Posts: React.FC = () => {
   //   }
   // }, [Posts])
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  // if (isLoading) {
+  //   return <LoadingSpinner />;
+  // }
 
   const handleOnMove = (e: MouseEvent | TouchEvent) => {
     if ("touches" in e && e.touches[0]) {
@@ -39,6 +39,23 @@ const Posts: React.FC = () => {
 
   const purifiedData = (htmlData: string) => {
     const clean = DOMPurify.sanitize(htmlData);
+    // let charLimit = 200;
+    // if (Number.isInteger(charLimit)) {
+    //   console.log("clean", clean[charLimit + 1]);
+    // }
+    // const stopAfterWhitespace = (clean: string) => {
+    //   if (clean[charLimit] === undefined) {
+    //     charLimit += 1;
+    //     stopAfterWhitespace(clean);
+    //   }
+    //   if (clean[charLimit] === " ") {
+    //     return clean;
+    //   } else {
+    //     charLimit += 1;
+    //     stopAfterWhitespace(clean);
+    //   }
+    // };
+    // return stopAfterWhitespace(clean)?.concat("...");
     return clean;
   };
 
@@ -50,7 +67,7 @@ const Posts: React.FC = () => {
 
   return (
     <div className="flex  min-h-screen w-full flex-col overflow-hidden bg-gray-50 text-gray-400">
-      {/* <section className="relative min-h-[50vh] ">
+      <section className="relative min-h-[50vh] ">
         <div
           className={`absolute z-10 grid  min-h-full place-items-center overflow-hidden bg-[#f3ff49] `}
           id="left-side"
@@ -73,7 +90,7 @@ const Posts: React.FC = () => {
             Read <span className="italic">Something</span>
           </h2>
         </div>
-      </section> */}
+      </section>
 
       <section
         className=" flex h-full flex-col items-center justify-center overflow-hidden
@@ -82,7 +99,7 @@ const Posts: React.FC = () => {
       >
         <div className="flex w-full flex-col gap-4 py-4 md:w-5/6 md:px-5">
           {Posts &&
-            Posts.map((post, key) => (
+            Posts?.map((post, key) => (
               <div className="container card " key={key}>
                 <div className="card-body rounded-2xl bg-gray-700">
                   <div className="card-title flex flex-row ">
@@ -93,7 +110,7 @@ const Posts: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div>
+                    <div className="hover:text-white">
                       <Link href={`${post.id}`}>{post?.title}</Link>
                       <p className="text-xs">
                         {post?.createdAt.toString().substring(0, 15)}
@@ -103,7 +120,9 @@ const Posts: React.FC = () => {
                   <div className="card-body border-red-400 p-0 text-left">
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: purifiedData(post?.body.substring(0, 50)),
+                        __html: purifiedData(
+                          post?.body.substring(0, 208).concat(".....")
+                        ),
                       }}
                       className="text-white"
                     ></div>

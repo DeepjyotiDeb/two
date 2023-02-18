@@ -28,7 +28,7 @@ export async function getStaticProps(
       trpcState: ssg.dehydrate(),
       id,
     },
-    revalidate: 60,
+    revalidate: 60 * 60 * 6,
   };
 }
 export const getStaticPaths: GetStaticPaths = async () => {

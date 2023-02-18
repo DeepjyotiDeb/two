@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
   const debouncedFilter = useDebounce(searchData, 1000);
   const { data: sessionData, status } = useSession();
   const { data, isFetched, isFetching } = trpc.search.searchField.useQuery(
-    { userId: debouncedFilter },
+    { searchTerm: debouncedFilter },
     {
       retry: false,
       refetchOnWindowFocus: false,
@@ -27,7 +27,6 @@ const Navbar: React.FC = () => {
       onSuccess: (success) => console.log("response", success),
     }
   );
-  // console.log("navbar srch", data, debouncedFilter);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -88,8 +87,9 @@ const Navbar: React.FC = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
           <li>
-            <a>Home</a>
+            <Link href="/">Home</Link>
           </li>
+          <li>{sessionData && <Link href="/create-post">Write Here!</Link>}</li>
           {/* <li tabIndex={0}>
             <a>
               Parent
@@ -112,12 +112,6 @@ const Navbar: React.FC = () => {
               </li>
             </ul>
           </li> */}
-          <li>
-            <a>Canvas</a>
-          </li>
-          <li>
-            <a>Contact</a>
-          </li>
         </ul>
       </div>
       <div className="navbar-end flex gap-4">
@@ -178,16 +172,18 @@ const Navbar: React.FC = () => {
               aria-labelledby="top-nav-search-label"
               className="absolute mt-10 w-full p-0.5"
             >
-              <div className="search-results cursor-pointer">
-                <div
-                  role="option"
-                  aria-selected="false"
-                  id="top-nav-search-item-0"
-                  className="result-item  flex flex-col items-center rounded-md bg-gray-100 p-1 text-black"
-                >
-                  test
+              {data.map((item, index) => (
+                <div className="search-results cursor-pointer " key={index}>
+                  <div
+                    role="option"
+                    aria-selected="false"
+                    id="top-nav-search-item-0"
+                    className="result-item  flex flex-col items-center  bg-gray-100 p-1 text-black hover:bg-gray-200"
+                  >
+                    {item.title}
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           )}
         </div>

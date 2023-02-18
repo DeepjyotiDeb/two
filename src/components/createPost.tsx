@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { SendIcon, WarningIcon } from "./SvgList";
 import { MiniLoader } from "./MiniLoader";
+import { useRouter } from "next/router";
 
 // const QuillNoSSRWrapper = dynamic(import("react-quill"), {
 //   ssr: false,
@@ -13,6 +14,7 @@ import { MiniLoader } from "./MiniLoader";
 
 const CreatePost: React.FC = () => {
   const { data } = useSession();
+  const router = useRouter();
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -88,7 +90,8 @@ const CreatePost: React.FC = () => {
           title: text.title,
           userId: data.user.id,
         });
-        console.log("res", res);
+        router.push("/");
+        // console.log("res", res);
       } catch (error) {
         console.log(error);
       }

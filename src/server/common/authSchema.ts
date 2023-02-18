@@ -45,7 +45,9 @@ export const commentThreadSchema = z.object({
 export const getUserSchema = z.object({
     userId: z.string(),
 })
+export const searchFieldSchema = z.object({ searchTerm: z.string() })
 
+export type ISearchField = z.infer<typeof searchFieldSchema>
 export type IGetUser = z.infer<typeof getUserSchema>
 export type ILogin = z.infer<typeof loginSchema>;
 export type ISignUp = z.infer<typeof signUpSchema>
