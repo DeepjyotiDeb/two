@@ -1,4 +1,3 @@
-import { getToken } from "next-auth/jwt";
 import { useSession } from "next-auth/react";
 import React from "react";
 
