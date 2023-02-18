@@ -77,7 +77,7 @@ const CreatePost: React.FC = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("text", text, convertedText);
+    // //console.log("text", text, convertedText);
     if (isQuillEmpty(convertedText)) {
       warnFunction();
       return;
@@ -91,9 +91,9 @@ const CreatePost: React.FC = () => {
           userId: data.user.id,
         });
         router.push("/");
-        // console.log("res", res);
+        // //console.log("res", res);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     }
   };

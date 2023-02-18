@@ -7,7 +7,7 @@ export const postRouter = router({
         const { title, body, userId, category } = input
 
         const user = await ctx.prisma?.user.findFirst({ where: { id: userId } })
-        // console.log('user', user)
+        // //console.log('user', user)
         if (!user) {
             throw new TRPCError({
                 code: 'NOT_FOUND',

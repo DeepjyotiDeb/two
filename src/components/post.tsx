@@ -13,7 +13,7 @@ import { PlaceholderText } from "./placeholder";
 const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const Post = () => {
   const { id: testId } = props;
-  console.log("id test", testId);
+  // //console.log("id test", testId);
   const router = useRouter();
   const { data: sessionData } = useSession();
   // const id = router.query.id as string;
@@ -23,9 +23,9 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       retry: false,
       refetchOnWindowFocus: false,
       enabled: router.isReady,
-      onSuccess: (success) => console.log("success", success, sessionData),
+      // onSuccess: (success) => //console.log("success", success, sessionData),
       onError: (error) => {
-        console.log("error", error);
+        // //console.log("error", error);
         router.push("/");
       },
     }
@@ -39,7 +39,7 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     trpc.comment.threadComment.useMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("data", data);
+    //console.log("data", data);
     e.preventDefault();
     if (sessionData?.user?.id) {
       try {
@@ -49,9 +49,9 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
           postId: testId,
           userId: sessionData.user.id,
         });
-        console.log("res", res);
+        //console.log("res", res);
       } catch (error) {
-        console.log("error", error);
+        //console.log("error", error);
       }
     }
   };
@@ -67,9 +67,9 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
           userId: sessionData.user.id,
           parentCommentId: "636016b6220489f11d693ad5",
         });
-        console.log("res thread comment", res);
+        //console.log("res thread comment", res);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     }
   };
@@ -88,7 +88,7 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   //   );
   // }
   if (router.isFallback) {
-    console.log("router", router.isFallback);
+    //console.log("router", router.isFallback);
     return <div>Loading...</div>;
   }
   const purifiedData = (htmlData: string) => {

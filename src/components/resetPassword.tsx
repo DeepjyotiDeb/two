@@ -12,10 +12,10 @@ const ResetPassword = () => {
       retry: false,
       enabled: router.isReady,
       onSuccess: async (success) => {
-        console.log("success", data, success);
+        //console.log("success", data, success);
       },
       onError: async (error) => {
-        console.log("err", error);
+        //console.log("err", error);
         router.push("/");
       },
     }
@@ -30,12 +30,12 @@ const ResetPassword = () => {
         newpass: newPass,
         token: token as string,
       });
-      console.log("res", res);
+      //console.log("res", res);
       if (res.status === 201) {
         router.replace("/");
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       router.replace("/");
     }
   };

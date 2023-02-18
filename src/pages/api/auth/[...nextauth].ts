@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
           if (!result) return null
           const isValidPassword = result.password !== null && bcrypt.compare(password, result.password)
           if (!isValidPassword) return null
-          // console.log('result', result)
+          // //console.log('result', result)
           return {
             id: result.id, email, name: result.name, userType: result.userType
           }
@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.sub = user.id
       }
-      // console.log('token', token, user)
+      // //console.log('token', token, user)
       return Promise.resolve(token);
     },
     async session({ session, token }) {
@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.id = token.sub as string
       }
-      // console.log('session details', { session: session })
+      // //console.log('session details', { session: session })
       return session;
     },
   },

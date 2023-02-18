@@ -6,7 +6,7 @@ import { publicProcedure, router } from '../trpc';
 export const searchField = router({
     searchField: publicProcedure.input(searchFieldSchema).query(async ({ ctx, input }) => {
         const { searchTerm } = input
-        console.log('userId', searchTerm)
+        //console.log('userId', searchTerm)
         // const result = await prisma?.post.findRaw({ filter: { $text: { $search: searchTerm } } })
         const result = await ctx.prisma?.post.aggregateRaw({
             pipeline: [
@@ -29,10 +29,10 @@ export const searchField = router({
             const newRes = (result as any)?.map((item: any) => {
                 return item
             })
-            console.log({ newRes, result })
+            //console.log({ newRes, result })
             return result
         } catch (error) {
-            console.log(error)
+            //console.log(error)
             throw new TRPCError({
                 code: 'NOT_FOUND',
                 message: '0 results found'

@@ -7,7 +7,7 @@ const ForgotPassword: React.FC = () => {
   const { mutateAsync } = trpc.forgotpassword.forgotpassword.useMutation({
     onSuccess: (success) => {
       setMessageSent(true);
-      console.log("success", success);
+      // //console.log("success", success);
     },
   });
 
@@ -21,9 +21,9 @@ const ForgotPassword: React.FC = () => {
     e.preventDefault();
     try {
       const res = await mutateAsync({ email: field });
-      console.log("res data sent", res);
+      // //console.log("res data sent", res);
     } catch (error) {
-      console.log("err", error);
+      // //console.log("err", error);
     }
   };
   return (

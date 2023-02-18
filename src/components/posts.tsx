@@ -14,7 +14,7 @@ const Posts: React.FC = () => {
   const { data: Posts, isLoading } = trpc.post.getPost.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
-    onSuccess: (success) => console.log("sucess", success),
+    onSuccess: (success) => //console.log("sucess", success),
   });
   // useEffect(() => {
   //   if(Posts){
@@ -41,7 +41,7 @@ const Posts: React.FC = () => {
     const clean = DOMPurify.sanitize(htmlData);
     // let charLimit = 200;
     // if (Number.isInteger(charLimit)) {
-    //   console.log("clean", clean[charLimit + 1]);
+    //   //console.log("clean", clean[charLimit + 1]);
     // }
     // const stopAfterWhitespace = (clean: string) => {
     //   if (clean[charLimit] === undefined) {

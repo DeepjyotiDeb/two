@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
       retry: false,
       refetchOnWindowFocus: false,
       enabled: Boolean(debouncedFilter) && debouncedFilter.length > 3,
-      onSuccess: (success) => console.log("response", success),
+      // onSuccess: (success) => //console.log("response", success),
     }
   );
   const [isOpen, setIsOpen] = useState(false);
@@ -140,8 +140,8 @@ const Navbar: React.FC = () => {
           {/* <button
             className="btn-sm btn normal-case hover:bg-yellow-100"
             onClick={async () => {
-              console.log("serach", searchData);
-              await refetch().then((res) => console.log("res", res.data));
+              //console.log("serach", searchData);
+              await refetch().then((res) => //console.log("res", res.data));
             }}
           >
             Search

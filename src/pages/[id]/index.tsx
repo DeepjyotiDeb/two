@@ -22,7 +22,7 @@ export async function getStaticProps(
   const id = context.params?.id as string;
   // prefetch `post.byId`
   await ssg.post.getSinglePost.prefetch({ id });
-  console.log("static props", id);
+  //console.log("static props", id);
   return {
     props: {
       trpcState: ssg.dehydrate(),
@@ -37,7 +37,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       id: true,
     },
   });
-  console.log("paths", posts);
+  //console.log("paths", posts);
   return {
     paths: posts?.map((post) => ({
       params: {

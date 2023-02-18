@@ -44,7 +44,7 @@ export const registerUserRouter = router({
                 id_token: id_session_token
             }
         })
-        // console.log('ctx', ctx)
+        // //console.log('ctx', ctx)
         return {
             status: 201,
             message: `Account for ${result?.email} created successfully`

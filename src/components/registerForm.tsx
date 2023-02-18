@@ -20,15 +20,15 @@ function RegisterForm() {
   const onSubmit = useCallback(
     async (data: ISignUp) => {
       try {
-        // console.log("data", data);
+        // //console.log("data", data);
         const res = await mutateAsync(data);
         if (res.status == 201) {
-          console.log("res", res);
+          //console.log("res", res);
           reset();
           router.push("/");
         }
       } catch (error) {
-        console.log("err", error);
+        //console.log("err", error);
       }
     },
     [mutateAsync, router, reset]
