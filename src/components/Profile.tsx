@@ -11,7 +11,7 @@ const User: React.FC = () => {
       retry: false,
       refetchOnWindowFocus: false,
       enabled: sessionData ? true : false,
-      onSuccess: (success) => //console.log("success", success),
+      // onSuccess: (success) => console.log("success", success),
       onError: (error) => {
         //console.log("error", error);
       },

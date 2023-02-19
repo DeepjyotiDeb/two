@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { MouseEvent, Touch, TouchEvent, useEffect, useState } from "react";
 // import data from "../../MOCK_DATA (2).json";
 import { trpc } from "../utils/trpc";
-import { JSDOM } from "jsdom";
 import LoadingSpinner from "./LoadingSpinner";
 import Link from "next/link";
 
@@ -14,7 +13,7 @@ const Posts: React.FC = () => {
   const { data: Posts, isLoading } = trpc.post.getPost.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
-    onSuccess: (success) => //console.log("sucess", success),
+    // onSuccess: (success) => console.log("sucess", success),
   });
   // useEffect(() => {
   //   if(Posts){

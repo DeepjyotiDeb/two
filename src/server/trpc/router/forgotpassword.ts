@@ -58,8 +58,8 @@ export const forgotPasswordRouter = router({
         }
 
         //console.log('ctx and inp', input)
-        sendmail().then(() => //console.log('mail result'))
-            .catch(err => //console.log((err)))
+        sendmail().then(() => console.log('mail result'))
+            .catch(err => console.log((err)))
 
         return {
             status: 201,
@@ -67,48 +67,48 @@ export const forgotPasswordRouter = router({
             input
         }
 
-        }),
-            resetpassword: publicProcedure.input(tokenSchema).query(async ({ input }) => {
-                const { token } = input as jwt.JwtPayload
-                if (token === undefined) {
-                    throw new TRPCError({
-                        code: 'BAD_REQUEST',
-                        message: 'Invalid input received'
-                    })
+    }),
+    resetpassword: publicProcedure.input(tokenSchema).query(async ({ input }) => {
+        const { token } = input as jwt.JwtPayload
+        if (token === undefined) {
+            throw new TRPCError({
+                code: 'BAD_REQUEST',
+                message: 'Invalid input received'
+            })
+        }
+        const isExist = jwt.verify(token, env.NEXTAUTH_SECRET);
+        if (isExist === undefined) {
+            throw new TRPCError({
+                code: 'BAD_REQUEST',
+                message: 'Invalid input received'
+            })
+        }
+        return {
+            code: '201',
+            message: `valid token ${token}`
+        }
+    }),
+    newpassword: publicProcedure
+        .input(resetPassword)
+        .mutation(async ({ input, ctx }) => {
+            const { newpass, token } = input
+            const tokenValue = jwt.verify(token, env.NEXTAUTH_SECRET) as jwt.JwtPayload
+            // const {id} = tokenValue
+            //console.log('token value', tokenValue)
+            const saltRounds = 10;
+            const changedPass = await bcrypt.hash(newpass, saltRounds)
+            const result = await ctx.prisma?.user.update({
+                where: {
+                    id: tokenValue.id
+                },
+                data: {
+                    password: changedPass
                 }
-                const isExist = jwt.verify(token, env.NEXTAUTH_SECRET);
-                if (isExist === undefined) {
-                    throw new TRPCError({
-                        code: 'BAD_REQUEST',
-                        message: 'Invalid input received'
-                    })
-                }
-                return {
-                    code: '201',
-                    message: `valid token ${token}`
-                }
-            }),
-            newpassword: publicProcedure
-                .input(resetPassword)
-                .mutation(async ({ input, ctx }) => {
-                    const { newpass, token } = input
-                    const tokenValue = jwt.verify(token, env.NEXTAUTH_SECRET) as jwt.JwtPayload
-                    // const {id} = tokenValue
-                    //console.log('token value', tokenValue)
-                    const saltRounds = 10;
-                    const changedPass = await bcrypt.hash(newpass, saltRounds)
-                    const result = await ctx.prisma?.user.update({
-                        where: {
-                            id: tokenValue.id
-                        },
-                        data: {
-                            password: changedPass
-                        }
-                    })
+            })
 
-                    return {
-                        status: 201,
-                        message: `Password was changed from ${result?.email}`
-                    }
-                })
+            return {
+                status: 201,
+                message: `Password was changed from ${result?.email}`
+            }
+        })
 })
