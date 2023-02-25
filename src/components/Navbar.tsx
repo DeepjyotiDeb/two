@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="navbar sticky top-0 z-50 w-[100vw] bg-gray-900">
+    <div className="navbar sticky top-0 z-50  bg-gray-900">
       <div className="navbar-start">
         <div className="dropdown">
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
