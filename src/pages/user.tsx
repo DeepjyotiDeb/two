@@ -1,3 +1,5 @@
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextPage } from "next";
 import User from "../components/Profile";
 import { requireAuth } from "../server/common/requireAuth";

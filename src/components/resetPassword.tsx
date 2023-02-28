@@ -6,20 +6,20 @@ const ResetPassword = () => {
   // const token = useRouter().query.token as string;
   const router = useRouter();
   const { token } = router.query;
-  const { data } = trpc.forgotpassword.resetpassword.useQuery(
-    { token: token as string },
-    {
-      retry: false,
-      enabled: router.isReady,
-      onSuccess: async (success) => {
-        //console.log("success", data, success);
-      },
-      onError: async (error) => {
-        //console.log("err", error);
-        router.push("/");
-      },
-    }
-  );
+  // const { data } = trpc.forgotpassword.resetpassword.useQuery(
+  //   { token: token as string },
+  //   {
+  //     retry: false,
+  //     enabled: router.isReady,
+  //     onSuccess: async (success) => {
+  //       //console.log("success", data, success);
+  //     },
+  //     onError: async (error) => {
+  //       //console.log("err", error);
+  //       router.push("/");
+  //     },
+  //   }
+  // );
   const [newPass, setNewPass] = useState("");
   const { mutateAsync } = trpc.forgotpassword.newpassword.useMutation();
 

@@ -84,7 +84,7 @@ const CreatePost: React.FC = () => {
     }
     if (data?.user?.id) {
       try {
-        const res = await mutateAsync({
+        await mutateAsync({
           body: convertedText,
           category: [text.category],
           title: text.title,

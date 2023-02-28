@@ -3,11 +3,12 @@ import React from "react";
 // import { User, Comments, CommentThread } from "../types/comment";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CommentSection = (props: {
-  comments: any;
-  commentThread: any;
-  userData: any;
-}) =>
+const CommentSection = () =>
+  // props: {
+  // comments: any;
+  // commentThread: any;
+  // userData: any;
+  // }
   //  {
   //   comments: Comments[];
   //   commentThread: CommentThread[];

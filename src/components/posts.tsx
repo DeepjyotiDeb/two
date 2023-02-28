@@ -1,20 +1,17 @@
 import DOMPurify from "dompurify";
-import { useRouter } from "next/router";
-import { MouseEvent, Touch, TouchEvent, useEffect, useState } from "react";
+import { MouseEvent, TouchEvent, useState } from "react";
 // import data from "../../MOCK_DATA (2).json";
 import { trpc } from "../utils/trpc";
-import { JSDOM } from "jsdom";
-import LoadingSpinner from "./LoadingSpinner";
 import Link from "next/link";
 
 const Posts: React.FC = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [percent, setPercent] = useState(0);
-  const [html, setHtml] = useState("");
-  const { data: Posts, isLoading } = trpc.post.getPost.useQuery(undefined, {
+  // const [html, setHtml] = useState("");
+  const { data: Posts } = trpc.post.getPost.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
-    onSuccess: (success) => //console.log("sucess", success),
+    // onSuccess: (success) => console.log("sucess", success),
   });
   // useEffect(() => {
   //   if(Posts){
@@ -59,11 +56,11 @@ const Posts: React.FC = () => {
     return clean;
   };
 
-  const routeToSinglePost = (id: string) => {
-    router.push({
-      pathname: `/posts/${id}`,
-    });
-  };
+  // const routeToSinglePost = (id: string) => {
+  //   router.push({
+  //     pathname: `/posts/${id}`,
+  //   });
+  // };
 
   return (
     <div className="flex  min-h-screen w-full flex-col overflow-hidden bg-gray-50 text-gray-400">

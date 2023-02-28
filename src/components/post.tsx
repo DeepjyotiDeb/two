@@ -2,7 +2,7 @@ import DOMPurify from "dompurify";
 import { InferGetStaticPropsType } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { getStaticProps } from "../pages/[id]";
 // import { getStaticProps } from "../pages/[id]";
 import { trpc } from "../utils/trpc";
@@ -25,54 +25,54 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       enabled: router.isReady,
       // onSuccess: (success) => //console.log("success", success, sessionData),
       onError: (error) => {
-        // //console.log("error", error);
+        console.log("error", error);
         router.push("/");
       },
     }
   );
 
-  const [comment, setComment] = useState("");
+  // const [comment, setComment] = useState("");
 
-  const { mutateAsync: postNewComment } =
-    trpc.comment.postComment.useMutation();
-  const { mutateAsync: postThreadComment } =
-    trpc.comment.threadComment.useMutation();
+  // const { mutateAsync: postNewComment } =
+  //   trpc.comment.postComment.useMutation();
+  // const { mutateAsync: postThreadComment } =
+  //   trpc.comment.threadComment.useMutation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    //console.log("data", data);
-    e.preventDefault();
-    if (sessionData?.user?.id) {
-      try {
-        const res = await postNewComment({
-          comment: comment,
-          // postId: id,
-          postId: testId,
-          userId: sessionData.user.id,
-        });
-        //console.log("res", res);
-      } catch (error) {
-        //console.log("error", error);
-      }
-    }
-  };
-  const threadSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (sessionData?.user?.id) {
-      try {
-        const res = await postThreadComment({
-          //636016b6220489f11d693ad5
-          comment: comment,
-          // postId: id,
-          postId: testId,
-          userId: sessionData.user.id,
-          parentCommentId: "636016b6220489f11d693ad5",
-        });
-        //console.log("res thread comment", res);
-      } catch (error) {
-        //console.log(error);
-      }
-    }
-  };
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   //console.log("data", data);
+  //   e.preventDefault();
+  //   if (sessionData?.user?.id) {
+  //     try {
+  //       await postNewComment({
+  //         comment: comment,
+  //         // postId: id,
+  //         postId: testId,
+  //         userId: sessionData.user.id,
+  //       });
+  //       //console.log("res", res);
+  //     } catch (error) {
+  //       //console.log("error", error);
+  //     }
+  //   }
+  // };
+  // const threadSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (sessionData?.user?.id) {
+  //     try {
+  //       await postThreadComment({
+  //         //636016b6220489f11d693ad5
+  //         comment: comment,
+  //         // postId: id,
+  //         postId: testId,
+  //         userId: sessionData.user.id,
+  //         parentCommentId: "636016b6220489f11d693ad5",
+  //       });
+  //       //console.log("res thread comment", res);
+  //     } catch (error) {
+  //       //console.log(error);
+  //     }
+  //   }
+  // };
 
   // if (isLoading) {
   //   return (
@@ -116,9 +116,9 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
           {isLoading && <PlaceholderText />}
           {sessionData && data && (
             <CommentSection
-              userData={sessionData.user}
-              comments={data.comments}
-              commentThread={data.commentThread}
+            // userData={sessionData.user}
+            // comments={data.comments}
+            // commentThread={data.commentThread}
             />
           )}
         </div>

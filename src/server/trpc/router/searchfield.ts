@@ -26,9 +26,9 @@ export const searchField = router({
             ]
         })
         try {
-            const newRes = (result as any)?.map((item: any) => {
-                return item
-            })
+            // const newRes = (result as any)?.map((item: any) => {
+            //     return item
+            // })
             //console.log({ newRes, result })
             return result
         } catch (error) {

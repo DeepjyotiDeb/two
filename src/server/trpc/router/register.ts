@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { TRPCError } from '@trpc/server';
-import { ObjectID } from 'bson';
+import { ObjectId } from 'bson';
 import { randomUUID } from 'crypto';
 import { signJwt } from '../../../utils/jwt';
 import { signUpSchema } from '../../common/authSchema';
@@ -21,7 +21,7 @@ export const registerUserRouter = router({
                 message: "User already exists"
             })
         }
-        const randomId = new ObjectID().toString();
+        const randomId = new ObjectId().toString();
         const id_session_token = signJwt({ email, name: username, randomId })
 
         const saltRounds = 10;
