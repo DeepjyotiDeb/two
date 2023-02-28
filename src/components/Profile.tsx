@@ -11,17 +11,10 @@ const User: React.FC = () => {
       retry: false,
       refetchOnWindowFocus: false,
       enabled: sessionData ? true : false,
-<<<<<<< HEAD
-      // onSuccess: (success) => //console.log("success", success),
-      // onError: (error) => {
-      //   //console.log("error", error);
-      // },
-=======
       // onSuccess: (success) => console.log("success", success),
       onError: (error) => {
-        //console.log("error", error);
+        console.log("error", error);
       },
->>>>>>> 069b8a0f61caa461f031df4c98ca2f2c70a45da8
     }
   );
   return (

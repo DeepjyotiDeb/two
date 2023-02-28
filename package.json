@@ -52,14 +52,8 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "autoprefixer": "^10.4.7",
-<<<<<<< HEAD
-    "eslint": "8.22.0",
-    "eslint-config-next": "12.3.1",
-    "eslint-plugin-unused-imports": "^2.0.0",
-=======
     "eslint": "8.34.0",
     "eslint-config-next": "13.2.1",
->>>>>>> 069b8a0f61caa461f031df4c98ca2f2c70a45da8
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.2.3",

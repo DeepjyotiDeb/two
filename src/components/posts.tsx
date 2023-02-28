@@ -2,10 +2,7 @@ import DOMPurify from "dompurify";
 import { MouseEvent, TouchEvent, useState } from "react";
 // import data from "../../MOCK_DATA (2).json";
 import { trpc } from "../utils/trpc";
-<<<<<<< HEAD
-=======
-import LoadingSpinner from "./LoadingSpinner";
->>>>>>> 069b8a0f61caa461f031df4c98ca2f2c70a45da8
+
 import Link from "next/link";
 
 const Posts: React.FC = () => {
