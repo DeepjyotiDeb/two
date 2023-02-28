@@ -1,4 +1,3 @@
-import DOMPurify from "dompurify";
 import { InferGetStaticPropsType } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -9,6 +8,7 @@ import { trpc } from "../utils/trpc";
 import CommentSection from "./CommentSection";
 // import LoadingSpinner from "./LoadingSpinner";
 import { PlaceholderText } from "./placeholder";
+import DOMPurify from "isomorphic-dompurify";
 
 const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const Post = () => {

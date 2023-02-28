@@ -1,7 +1,7 @@
-import DOMPurify from "dompurify";
 import { MouseEvent, TouchEvent, useState } from "react";
 // import data from "../../MOCK_DATA (2).json";
 import { trpc } from "../utils/trpc";
+import DOMPurify from "isomorphic-dompurify";
 
 import Link from "next/link";
 
