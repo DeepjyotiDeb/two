@@ -18,7 +18,7 @@ export default function Layout({ children, ...props }: LayoutProps) {
         <title>Supacode {`| ${title}`}</title>
       </Head>
       <Navbar />
-      <main className="flex grow items-stretch">{children}</main>
+      <main className="flex grow ">{children}</main>
       <Footer />
     </div>
   );

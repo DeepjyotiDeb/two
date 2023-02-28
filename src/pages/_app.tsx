@@ -6,6 +6,7 @@ import type { Session } from "next-auth";
 import type { AppType } from "next/app";
 import { trpc } from "../utils/trpc";
 import Layout from "../components/layout";
+import {Analytics} from "@vercel/analytics/react"
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -16,6 +17,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <Layout title="Supacode!">
         <Component {...pageProps} />
       </Layout>
+      <Analytics/>
     </SessionProvider>
   );
 };
