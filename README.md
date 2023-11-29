@@ -1,7 +1,8 @@
-# Create T3 App
+# SUPACODE
 
-This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
-A responsive app that uses nextAuth for authentication, tailwind for css and nextjs in ts as the farmework
+App built using [nextjs](https://nextjs.org/) as its tech stack and mongodb as its database provider. Tried my hand at implementing a cms using [react quill](https://www.npmjs.com/package/react-quill)
+
+Uses [next auth](https://next-auth.js.org/) as its authentication system
 
 ## Where is this app?
 
